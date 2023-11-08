@@ -37,7 +37,7 @@ const getLeaderboard = async () => {
     }
 };
 
-//getting migrated to auth path
+//auth paths
 const signInUser = async (form) => {
     try {
         if (!form.username || !form.password)
@@ -51,6 +51,21 @@ const signInUser = async (form) => {
         console.error(error);
     }
 };
+
+//getting migrated to auth path
+// const signInUser = async (form) => {
+//     try {
+//         if (!form.username || !form.password)
+//             throw new Error(
+//                 alert("Please enter a valid username and password!")
+//             );
+//         const userData = await axios.get(`${backend}/users/${form.username}`);
+//         console.log(userData.data);
+//         return userData.data;
+//     } catch (error) {
+//         console.error(error);
+//     }
+// };
 
 const makeNewUser = (newUser) => {
     axios
