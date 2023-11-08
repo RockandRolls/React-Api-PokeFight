@@ -26,6 +26,18 @@ const getPokemonById = async (pokeId) => {
     }
 };
 
+//can stay on users path
+const getLeaderboard = async () => {
+    try {
+        const usersData = await axios.get(`${backend}/users`);
+        // console.log(pokeData.data);
+        return usersData.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+//getting migrated to auth path
 const signInUser = async (form) => {
     try {
         if (!form.username || !form.password)
@@ -72,16 +84,6 @@ const editBattles = (username, myCurrentHP) => {
         .catch(function (error) {
             console.log(error);
         });
-};
-
-const getLeaderboard = async () => {
-    try {
-        const usersData = await axios.get(`${backend}/users`);
-        // console.log(pokeData.data);
-        return usersData.data;
-    } catch (error) {
-        console.error(error);
-    }
 };
 
 export {
