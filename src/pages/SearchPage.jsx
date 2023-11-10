@@ -32,7 +32,7 @@ const SearchPage = () => {
         });
     }
     return (
-        <div className="flex-col min-h-screen ">
+        <div className="flex-col  min-h-screen ">
             <div >
                 <h2 className="text-3xl">Search Pokemon</h2>
                 {/* input type='text' */}

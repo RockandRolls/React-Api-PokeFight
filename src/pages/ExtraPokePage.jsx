@@ -53,7 +53,6 @@ const ExtraPokePage = () => {
   useEffect(() => {
     pokeFun();
   }, [url]);
-  console.log(pokeData);
 
 
   return (
