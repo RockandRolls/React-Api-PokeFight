@@ -7,12 +7,16 @@ import { useAppContext } from "../context/AppContext";
 const ExtraIndividual = ({ data }) => {
     const { setChosenPokemon } = useAppContext();
     const navigate = useNavigate();
+    console.log((data?.types[0]?.type?.name || '').charAt(0).toUpperCase() +
+    (data?.types[0]?.type?.name || '').slice(1))
     return (
         <>
             {!data ? (
-                ""
+                "Loading..."
             ) : (
-                <div className="flex flex-col items-center justify-center ">
+
+                <div className="poke-details">
+
                     <h1 className="text-yellow-600">{data.name}</h1>
                     <img
                         className="w-full"
@@ -31,12 +35,13 @@ const ExtraIndividual = ({ data }) => {
                         Go Battle!
                     </Button>
                     <div className="types">
-                        <h1 className="heading {btnColor(type)}">Type:</h1>
+                        <h2 className="text-yellow-600">Type:</h2>
                         {data.types.map((poke) => {
                             return (
                                 <>
                                     <div className="group">
-                                        <h2>{poke.type.name}</h2>
+                                        <h2 className={btnColor((data?.types[0]?.type?.name || '').charAt(0).toUpperCase() +
+    (data?.types[0]?.type?.name || '').slice(1))}>{poke.type.name}</h2>
                                     </div>
                                 </>
                             );
@@ -45,23 +50,27 @@ const ExtraIndividual = ({ data }) => {
 
                     <div className="base-stat text-yellow-600">
                         {data.stats.map((poke) => {
-                            return (
-                                <>
-                                    <h3>
-                                        {poke.stat.name}:
-                                        <Progress
-                                            className="max-w-md mb-4"
-                                            color="danger"
-                                            now={poke.base_stat}
-                                        />
-                                        {/* <Progress                    
-                    color="danger"
-                    label={`HP ${enemyHP.currentHP}/${enemyHP.maxHP}`}
-                    className="max-w-md mb-4"
-                /> */}
-                                    </h3>
-                                </>
-                            );
+
+                            if (poke.stat.name==="hp"||poke.stat.name==="attack"||poke.stat.name==="defense") {
+                                
+                                return (
+                                    <>
+                                        <h3>
+                                        {poke.stat.name}: {poke.base_stat}
+                                            <Progress
+                        aria-label="HP"
+                        size="md"
+                        value={poke.base_stat}
+                        color="danger"
+                        className="max-w-md mb-4"
+                    />
+                                  
+                                        </h3>
+                                    </>
+                                );
+                            }
+                            
+
                         })}
                     </div>
                 </div>

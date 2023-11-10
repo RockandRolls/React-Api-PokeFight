@@ -35,27 +35,25 @@ const ExtraPokePage = () => {
     //   });
     // };
 
-    const getPokemon = (res) => {
-        res.map(async (item) => {
-            const result = await axios.get(item.url);
 
-            setPokeData((prevState) => {
-                const dataExists = prevState.some(
-                    (item) => item.id === result.data.id
-                );
-                if (!dataExists) {
-                    const newState = [...prevState, result.data];
-                    newState.sort((a, b) => (a.id > b.id ? 1 : -1));
-                    return newState;
-                }
-                return prevState;
-            });
-        });
-    };
-    useEffect(() => {
-        pokeFun();
-    }, [url]);
-    console.log(pokeData);
+  const getPokemon =  (res) => {
+      res.map( async(item) => {
+      const result = await axios.get(item.url); 
+      
+      setPokeData((prevState) => {
+        const dataExists = prevState.some((item) => item.id === result.data.id);
+        if (!dataExists) {
+          const newState = [...prevState, result.data];
+          newState.sort((a, b) => (a.id > b.id ? 1 : -1));
+          return newState;
+        }      
+        return prevState;
+      });
+    });
+  };
+  useEffect(() => {
+    pokeFun();
+  }, [url]);          
 
     return (
         <>
