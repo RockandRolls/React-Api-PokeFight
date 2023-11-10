@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getPokemonById, editBattles } from "../lib/dbClient";
+import { getPokemonById } from "../lib/dbClient";
 import { useAppContext } from "../context/AppContext";
 import MyBattleCard from "../components/MyBattleCard";
 import EnemyBattleCard from "../components/EnemyBattleCard";
@@ -11,7 +11,10 @@ const GamePage = () => {
     const [enemyPokemon, setEnemyPokemon] = useState();
     const [myHP, setMyHP] = useState({ currentHP: 100, maxHP: 100 });
     const [enemyHP, setEnemyHP] = useState({ currentHP: 100, maxHP: 100 });
-    const { user, setUser, chosenPokemon } = useAppContext();
+    const {
+        //user, setUser,
+        chosenPokemon,
+    } = useAppContext();
 
     useEffect(() => {
         getPokemonById(chosenPokemon)
@@ -20,20 +23,20 @@ const GamePage = () => {
                 // console.log("dot notation", myPokemon.base.HP);
                 setMyHP((prev) => ({
                     ...prev,
-                    currentHP: pokemon.base.HP,
-                    maxHP: pokemon.base.HP,
+                    currentHP: pokemon?.base?.HP,
+                    maxHP: pokemon?.base?.HP,
                 }));
             })
             .catch((error) => console.error(error));
     }, [chosenPokemon]);
     useEffect(() => {
-        getPokemonById(`${Math.floor(Math.random() * 152)}`)
+        getPokemonById(`${Math.floor(Math.random() * 151 + 1)}`)
             .then((pokemon) => {
                 setEnemyPokemon(pokemon);
                 setEnemyHP((prev) => ({
                     ...prev,
-                    currentHP: pokemon.base?.HP,
-                    maxHP: pokemon.base.HP,
+                    currentHP: pokemon?.base?.HP,
+                    maxHP: pokemon?.base?.HP,
                 }));
             })
             .catch((error) => console.error(error));

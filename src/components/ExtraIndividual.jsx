@@ -4,8 +4,6 @@ import { Button, Progress } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 
-
-
 const ExtraIndividual = ({ data }) => {
     const { setChosenPokemon } = useAppContext();
     const navigate = useNavigate();
@@ -16,13 +14,26 @@ const ExtraIndividual = ({ data }) => {
             {!data ? (
                 "Loading..."
             ) : (
+
                 <div className="poke-details">
+
                     <h1 className="text-yellow-600">{data.name}</h1>
                     <img
-                        className=" "
+                        className="w-full"
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${data.id}.svg`}
                         alt=""
                     />
+                    <Button
+                        onClick={() => {
+                            setChosenPokemon(data.id);
+                            navigate("/battle");
+                        }}
+                        size="lg"
+                        color="danger"
+                        className="m-4"
+                    >
+                        Go Battle!
+                    </Button>
                     <div className="types">
                         <h2 className="text-yellow-600">Type:</h2>
                         {data.types.map((poke) => {
@@ -37,9 +48,9 @@ const ExtraIndividual = ({ data }) => {
                         })}
                     </div>
 
-
                     <div className="base-stat text-yellow-600">
                         {data.stats.map((poke) => {
+
                             if (poke.stat.name==="hp"||poke.stat.name==="attack"||poke.stat.name==="defense") {
                                 
                                 return (
@@ -59,23 +70,12 @@ const ExtraIndividual = ({ data }) => {
                                 );
                             }
                             
+
                         })}
                     </div>
-                    <Button
-                        onClick={() => {
-                            setChosenPokemon(data.id);
-                            navigate("/battle");
-                        }}
-                        size="lg"
-                        color="danger"
-                        className="m-4"
-                    >
-                        Go Battle!
-                    </Button>
                 </div>
             )}
         </>
-
     );
 };
 export default ExtraIndividual;

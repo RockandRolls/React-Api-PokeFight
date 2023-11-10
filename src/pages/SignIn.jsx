@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { Input, Button } from "@nextui-org/react";
 import { MailIcon } from "../assets/MailIcon.jsx";
 import { EyeFilledIcon } from "../assets/EyeFilledIcon.jsx";
 import { EyeSlashFilledIcon } from "../assets/EyeSlashFilledIcon.jsx";
-import { signInUser } from "../lib/dbClient.js";
+import { authSignInUser } from "../lib/dbClient.js";
 import { useAppContext } from "../context/AppContext.jsx";
 const SignIn = () => {
     const [form, setForm] = useState({
         username: "",
         password: "",
     });
-    const { setUser } = useAppContext();
+    const { setToken, isAuth } = useAppContext();
 
     //state and function for toggling password visibility
     const [isVisible, setIsVisible] = useState(false);
@@ -24,35 +24,48 @@ const SignIn = () => {
         setForm((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = () => {
-        //updated logic from sign in modal with checks
-        signInUser(form)
-            .then((userData) => {
-                let test = userData;
-                if (userData) {
-                    setUser(userData);
-                } else {
-                    setUser(false);
-                }
-                return test;
-                // userData.length ? setUser(userData) : setUser(false);
-            })
-            .then((test) => {
-                if (!test) return alert("Invalid username or password!");
-                setForm({
-                    username: "",
-                    password: "",
-                });
-                navigate("/");
+    const handleAuthSignin = () => {
+        authSignInUser(form)
+            .then((headers) => {
+                localStorage.setItem("token", headers.authorization);
+                setToken(headers.authorization);
+                setTimeout(() => navigate("/"), 1000);
             })
             .catch((error) => console.error(error));
     };
+
+    // const handleSubmit = () => {
+    //     //updated logic from sign in modal with checks
+    //     signInUser(form)
+    //         .then((userData) => {
+    //             let test = userData;
+    //             if (userData) {
+    //                 setUser(userData);
+    //             } else {
+    //                 setUser(false);
+    //             }
+    //             return test;
+    //             // userData.length ? setUser(userData) : setUser(false);
+    //         })
+    //         .then((test) => {
+    //             if (!test) return alert("Invalid username or password!");
+    //             setForm({
+    //                 username: "",
+    //                 password: "",
+    //             });
+    //             navigate("/");
+    //         })
+    //         .catch((error) => console.error(error));
+    // };
+
+    if (isAuth) return <Navigate to="/" />;
+
     return (
         <div className="mt-[-1px] w-full h-screen flex items-center justify-center">
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
-                    handleSubmit();
+                    handleAuthSignin();
                 }}
                 autoComplete="off"
                 className="flex flex-col items-center justify-between bg-base-300 pt-4 rounded overflow-hidden mx-auto my-0 w-2/3 sm:w-1/2 2xl:w-1/3 transition-all"
