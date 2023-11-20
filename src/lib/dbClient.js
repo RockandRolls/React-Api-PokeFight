@@ -6,6 +6,25 @@ backend = import.meta.env.DEV
     ? import.meta.env.VITE_BACKEND_DEV
     : import.meta.env.VITE_BACKEND_DEPLOY;
 
+const searchPokemon = async(pokemonName)=>{
+const response=await axios(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
+return {
+    name: pokemonName,
+    species: response.data.species.name,
+    img: response.data.sprites.front_default,
+    type: response.data.types[0].type.name,
+    hp: response.data.stats[0].base_stat,
+    attack: response.data.stats[1].base_stat,
+    defense: response.data.stats[2].base_stat,
+}
+// .then(
+    // (response) => {
+    //     // console.log(response)
+    //     setPokemon();
+    //     setPokemonChosen(true);
+    // }
+};
+
 const getPokemons = async () => {
     try {
         const allPokemons = await axios.get(`${backend}/pokemon`);
@@ -119,6 +138,7 @@ const getLeaderboard = async () => {
 };
 
 export {
+    searchPokemon,
     getPokemons,
     getSinglePokemon,
     getPokemonById,

@@ -8,7 +8,8 @@ import { useState, useEffect } from "react";
 const ExtraPokePage = () => {
     const [pokeData, setPokeData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [url, setUrl] = useState("https://pokeapi.co/api/v2/pokemon/");
+    // const [url, setUrl] = useState("https://pokeapi.co/api/v2/pokemon/");
+    const url='https://pokeapi.co/api/v2/pokemon/';
     const [nextUrl, setNextUrl] = useState();
     const [prevUrl, setPrevUrl] = useState();
     const [pokeDex, setPokeDex] = useState();
@@ -53,7 +54,7 @@ const ExtraPokePage = () => {
   };
   useEffect(() => {
     pokeFun();
-  }, [url]);          
+  }, []);          
 
     return (
         <>
